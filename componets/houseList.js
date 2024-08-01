@@ -1,25 +1,22 @@
-import { useState } from "react";
+import loadingStatus from "@/helpers/loadingStatus";
+import useHouses from "@/hooks/useHouses";
 import HouseRow from "./houseRow";
-
-const housesArray = [
-    { id: 1, address: '123 Main St', country: 'USA', askingPrice: '500000' },
-    { id: 2, address: '456 Elm St', country: 'Canada', askingPrice: '600000' },
-    { id: 3, address: '789 Oak St', country: 'Mexico', askingPrice: '700000' },
-    { id: 4, address: '101 Maple St', country: 'United Kingdom', askingPrice: '800000' },
-    { id: 5, address: '202 Willow St', country: 'Australia', askingPrice: '754000' }
-]
+import LoadingIndicator from "./loadingIndicator";
 
 
+const HouseList = ({ selectHouse }) => {
+    const { houses, setHousesWrapper, loadingState } = useHouses();
 
-const HouseList = () => {
-    const [houses, setHouses] = useState(housesArray);
+    if (loadingState !== loadingStatus.loaded) {
+        return <LoadingIndicator loadingState={loadingState} />
+    }
 
     const addHouse = () => {
-        setHouses([
+        setHousesWrapper([
             ...houses,
-            { id: 6, address: '123 Main St', country: "Turkey", askingPrice: '654321' }
+            { id: 6, address: '123 Main St', country: "Turkey", price: '654321' }
         ]);
-    }
+    };
 
     return (
         <>
@@ -37,7 +34,7 @@ const HouseList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {houses.map(house => <HouseRow key={house.id} house={house} />)}
+                    {houses.map(house => <HouseRow key={house.id} house={house} selectHouse={selectHouse} />)}
                 </tbody>
             </table>
             <button className="btn btn-primary" onClick={addHouse}>
