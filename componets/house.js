@@ -2,7 +2,7 @@ import { useContext } from "react";
 import currencyFormatter from "../helpers/currencyFormatter";
 import defaultPhoto from "../helpers/defaultPhoto";
 import { navigationContext } from "./app";
-
+import Bids from "./bids";
 
 const House = () => {
     const { param: house } = useContext(navigationContext);
@@ -13,7 +13,7 @@ const House = () => {
                     <img
                         className="img-fluid"
                         src={
-                            house.photo ? defaultPhoto : `./houseImages/${house.photo}.jpeg`
+                            house.photo ? `./houseImages/${house.photo}.jpeg` : defaultPhoto
                         }
                         alt="House pic"
                     />
@@ -34,6 +34,7 @@ const House = () => {
                 <div className="row">
                     <div className="col-12 mt-3">{house.description}</div>
                 </div>
+                <Bids house={house} />
             </div>
         </div>
     );
